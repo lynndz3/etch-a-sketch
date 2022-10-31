@@ -11,23 +11,80 @@
 <body>
     <h1>Etch-A-Sketch</h1>
     <div class="container"></div>
+    <div class="slidecontainer">
+        <p><span id="grid-size"></span></p>
+        <input type="range" min="2" max="100" value="16" class="slider" id="myRange">
+      </div>
+    <button onclick="clearContents()">Clear</button>
+    <div><label for="colorpicker">Color Picker:</label>
+    <input type="color" id="colorpicker" value="#000000"></div>
+    <input type='radio' id="rainbow-mode">
+    <label for="rainbow-mode">Rainbow Mode!</label>
+
     <script>
         const container = document.querySelector('.container');
+
+        const cells = document.getElementsByClassName('cells');
+
+        makeRows(16, 16);
 
         function makeRows(rows, columns) {
             container.style.setProperty('--grid-rows', rows);
             container.style.setProperty('--grid-cols', columns);
             for (let i = 0; i < (rows * columns); i++) {
-                let cell = document.createElement("div");
-                cell.innerText = (i + 1);
-                container.appendChild(cell).className = "cells";
+                const cell = document.createElement("div");
+                cell.className = 'cells';
+                container.appendChild(cell);
             };
         };
 
-    makeRows(16, 16);
+        let color = document.querySelector('#colorpicker').value;
+        document.querySelector('#colorpicker').addEventListener('change', (e) => {
+            color = e.target.value;
+            console.log(color);
+            return color;
+        });
 
+        let randomColor = Math.floor(Math.random()*16777215).toString(16);
 
-        //container.appendChild(container);  
+        let mouseDown = false;
+
+        container.addEventListener('mousedown', (event) => {
+                mouseDown = true;
+            });
+        
+
+        document.addEventListener('mouseover', (event) => {
+                if (mouseDown) {
+                    if (event.target.className === "cells") {
+                        event.target.style.backgroundColor = color;
+                        console.log(event);
+                    }
+                }    
+            });
+        document.addEventListener('mouseup', () => {
+            mouseDown = false;
+        });
+        
+    let slider = document.getElementById("myRange");
+    let dimensions = document.querySelector('#grid-size');
+    dimensions.textContent = slider.value + " x " + slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+        dimensions.textContent = this.value + " x " + this.value;
+        clearContents();
+        makeRows(this.value, this.value);
+    }
+
+    function clearContents() {
+        let allCells = document.querySelectorAll('.cells');
+        for (let cell of allCells) {
+            cell.style.backgroundColor = "";
+        }
+    }
+    
+
     </script>
 </body>
 </html>
