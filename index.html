@@ -16,10 +16,12 @@
         <input type="range" min="2" max="100" value="16" class="slider" id="myRange">
       </div>
     <button onclick="clearContents()">Clear</button>
-    <div><label for="colorpicker">Color Picker:</label>
-    <input type="color" id="colorpicker" value="#000000"></div>
-    <input type='radio' id="rainbow-mode">
-    <label for="rainbow-mode">Rainbow Mode!</label>
+    
+      <button>
+    <label for="colorpicker">Color Picker:</label>
+    <input type='color' id="colorpicker" value="#000000"></button>
+    <span>OR</span>
+    <button id="rainbow-mode">Rainbow!</button>
 
     <script>
         const container = document.querySelector('.container');
@@ -45,7 +47,15 @@
             return color;
         });
 
-        let randomColor = Math.floor(Math.random()*16777215).toString(16);
+        let rainbowOption = document.querySelector('#rainbow-mode');
+       
+        rainbowOption.addEventListener("click", function() {
+            console.log(this);
+            if (this.classList.contains("active") == true) {
+                this.classList.remove("active");
+            }
+            else this.className = "active";
+        });
 
         let mouseDown = false;
 
@@ -57,7 +67,13 @@
         document.addEventListener('mouseover', (event) => {
                 if (mouseDown) {
                     if (event.target.className === "cells") {
-                        event.target.style.backgroundColor = color;
+                        console.log(rainbowOption.classList.contains("active"));
+                        if (rainbowOption.classList.contains("active")) {
+                            event.target.style.backgroundColor =  "#" + Math.floor(Math.random()*16777215).toString(16);
+                        }
+                        else {
+                            event.target.style.backgroundColor = color;
+                        }
                         console.log(event);
                     }
                 }    
@@ -83,7 +99,6 @@
             cell.style.backgroundColor = "";
         }
     }
-    
 
     </script>
 </body>
