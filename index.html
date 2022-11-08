@@ -53,20 +53,22 @@
         });
 
         let rainbowOption = document.querySelector('#rainbow-mode');
+        let colorpicker = document.querySelector('#colorpicker');
+        let colorpickerContainer = document.querySelector('.color-picker-container');
 
        
         rainbowOption.addEventListener("click", function() {
-            console.log(rainbowOption.checked) });
-            
-            /*console.log(this);
-            if (this.classList.contains("active") == true) {
-                this.classList.remove("active");
-                document.querySelector('#colorpicker').disabled = false;
-
+            if (rainbowOption.checked == true) {
+                colorpicker.disabled = true;
+                colorpicker.classList.add('disabled');
+                colorpickerContainer.classList.add('disabled');
             }
-            else this.className = "active";
-            document.querySelector('#colorpicker').disabled = true;
-        });*/
+            else {
+                colorpicker.disabled = false;
+                colorpicker.classList.remove('disabled');
+                colorpickerContainer.classList.remove('disabled');
+            }
+        });
 
         let mouseDown = false;
 
@@ -78,7 +80,6 @@
         document.addEventListener('mouseover', (event) => {
                 if (mouseDown) {
                     if (event.target.className === "cells") {
-                        console.log(rainbowOption.classList.contains("active"));
                         if (rainbowOption.checked == true) {
                             event.target.style.backgroundColor =  "#" + Math.floor(Math.random()*16777215).toString(16);
                         }
