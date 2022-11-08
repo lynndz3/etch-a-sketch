@@ -13,19 +13,24 @@
     <div class="container"></div>
     <div class="slidecontainer">
         <p><span id="grid-size"></span></p>
-        <input type="range" min="2" max="100" value="16" class="slider" id="myRange">
+        <input type="range" min="2" max="100" value="16" id="myRange">
       </div>
-    <button onclick="clearContents()">Clear</button>
     
-      <button>
-    <label for="colorpicker">Color Picker:</label>
-    <input type='color' id="colorpicker" value="#000000"></button>
-    <span>OR</span>
-    <button id="rainbow-mode">Rainbow!</button>
+      <span class="options">
+    <div class='color-picker-container'>
+    <label for="colorpicker" style="text-align: -webkit-right;">Pick any Color:</label>
+    <input type='color' id="colorpicker" value="#000000"></div>
+    <!-- <span class="or">OR</span> -->
+    <div class="rainbow-toggle">
+    <label class="switch">
+        <input type="checkbox" id="rainbow-mode">
+        <span class="slider round"></span>
+      </label><span>Rainbow Mode!</span></div>
+    </span>
+    <button onclick="clearContents()">Clear</button>
 
     <script>
         const container = document.querySelector('.container');
-
         const cells = document.getElementsByClassName('cells');
 
         makeRows(16, 16);
@@ -48,14 +53,20 @@
         });
 
         let rainbowOption = document.querySelector('#rainbow-mode');
+
        
         rainbowOption.addEventListener("click", function() {
-            console.log(this);
+            console.log(rainbowOption.checked) });
+            
+            /*console.log(this);
             if (this.classList.contains("active") == true) {
                 this.classList.remove("active");
+                document.querySelector('#colorpicker').disabled = false;
+
             }
             else this.className = "active";
-        });
+            document.querySelector('#colorpicker').disabled = true;
+        });*/
 
         let mouseDown = false;
 
@@ -68,7 +79,7 @@
                 if (mouseDown) {
                     if (event.target.className === "cells") {
                         console.log(rainbowOption.classList.contains("active"));
-                        if (rainbowOption.classList.contains("active")) {
+                        if (rainbowOption.checked == true) {
                             event.target.style.backgroundColor =  "#" + Math.floor(Math.random()*16777215).toString(16);
                         }
                         else {
